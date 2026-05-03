@@ -75,8 +75,8 @@ of the paper itself (figures, tables, references).
 ### Local (single-GPU)
 
 ```bash
-git clone https://github.com/RageLog/RPC_Article.git
-cd RPC_Article
+git clone https://github.com/RageLog/bg-robust-rps
+cd bg-robust-rps
 pip install -r requirements.txt
 pip install rembg[gpu]    # if not pulled by requirements.txt
 
@@ -97,13 +97,21 @@ evaluation, Grad-CAM extraction, and vector-graphics export. Trained
 
 ### Hosted (Google Colab)
 
-1. Pack the raw dataset as `datasets.zip` and upload it to
-   `MyDrive/RPC_Colab/datasets.zip`.
+1. Run `python zip_datasets_for_colab.py` locally to produce
+   `rpc_base_data.zip` (which contains `datasets/raw/` and
+   `datasets/backgrounds/`). Upload it to
+   `MyDrive/RPC_Colab/datasets.zip` — the notebook looks for that
+   exact name, so rename on upload.
 2. Open `train_on_colab.ipynb` in Colab.
-3. Run the **Environmental Setup** block (mounts Drive, clones the
-   repo, installs dependencies, stages the dataset).
-4. Either step through the modular experiment cells or run the
-   **Automated Pipeline** cell to launch the full grid.
+3. Run the **Initial Setup and Dependency Installation** cell
+   (mounts Drive, clones this repository into `/content/rpc_project`,
+   installs `requirements.txt` plus `rembg[gpu]`, and unpacks the
+   dataset archive).
+4. Either step through the modular experiment cells (Stage 1, 2, 4,
+   5, 7, 9, 10) or run the **Automated Pipeline Execution** cell to
+   launch the full grid via `run_all_experiments.py`. Trained
+   checkpoints and per-fold reports are mirrored into
+   `MyDrive/RPC_Colab/{models,reports}/` after each stage.
 
 A more detailed reproduction guide lives in
 [`docs/REPRODUCTION.md`](docs/REPRODUCTION.md).
@@ -135,12 +143,12 @@ repository (the citation file `CITATION.cff` is also picked up
 automatically by GitHub):
 
 ```bibtex
-@inproceedings{rpc_article_2026,
-  author    = {{RPC_Article authors}},
+@inproceedings{bg-robust-rps_2026,
+  author    = {{bg-robust-rps authors}},
   title     = {Background-Robust Static Hand-Gesture Recognition:
                An Image-Grouped Multi-Backbone Ablation},
   year      = {2026},
-  url       = {https://github.com/RageLog/RPC_Article}
+  url       = {https://github.com/RageLog/bg-robust-rps}
 }
 ```
 

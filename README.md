@@ -139,8 +139,7 @@ are stand-alone `.tex` files included via `\input{tables/T..}`.
 ## How to cite
 
 If you use this software, please cite both the paper and the
-repository (the citation file `CITATION.cff` is also picked up
-automatically by GitHub):
+repository:
 
 ```bibtex
 @inproceedings{bg-robust-rps_2026,

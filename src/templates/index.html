@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RPS ARENA WEB</title>
+    <style>
+        body { background: #121212; color: #fff; font-family: sans-serif; text-align: center; overflow-x: hidden; }
+        .video-box { margin: 20px auto; border: 3px solid #333; width: 80%; max-width: 1000px; }
+        img { width: 100%; display: block; }
+        .controls { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .inputs { margin: 10px; padding: 15px; background: #222; border-radius: 10px; display: inline-block; }
+        input[type="text"] { padding: 10px; background: #333; border: 1px solid #555; color: white; border-radius: 5px; width: 200px; }
+        select { padding: 10px; background: #333; border: 1px solid #555; color: white; border-radius: 5px; width: 320px; max-width: 80vw; }
+        button { padding: 10px 20px; font-weight: bold; cursor: pointer; border: none; border-radius: 5px; }
+        .btn-mode { background: #3498db; color: white; }
+        .btn-start { background: #2ecc71; color: white; }
+        .btn-quit { background: #e74c3c; color: white; }
+        .btn-refresh { background: #555; color: white; }
+        button:hover { opacity: 0.8; }
+        .checkbox-container { display: block; margin-bottom: 10px; font-size: 14px; color: #ccc; }
+        .model-status { margin-top: 8px; color: #ccc; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <h1>RPS ARENA: ULTIMATE EDITION</h1>
+    
+    <div class="video-box">
+        <img src="{{ url_for('video_feed') }}" alt="Game Stream">
+    </div>
+
+    <h2 id="status">Status: Ready</h2>
+
+    <div class="inputs">
+        <label class="checkbox-container" for="modelSelect">Inference Model</label>
+        <select id="modelSelect" onchange="selectModel()"></select>
+        <button class="btn-refresh" onclick="refreshModels()">Refresh</button>
+        <div id="modelStatus" class="model-status">Model list loading...</div>
+    </div>
+
+    <div class="inputs">
+        <label class="checkbox-container">
+            <input type="checkbox" id="useDefault" checked onchange="toggleInputs()"> 
+            Use Default Camera Settings (Automatic)
+        </label>
+        <div id="manualInputs" style="display:none; margin-top:10px;">
+            <input type="text" id="cam1" placeholder="Camera 1 (0 or URL)">
+            <input type="text" id="cam2" placeholder="Camera 2 (PRO Mode Only)">
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn-mode" onclick="setMode('mode_1')">1. SOLO</button>
+        <button class="btn-mode" onclick="setMode('mode_2')">2. LOCAL DUEL</button>
+        <button class="btn-mode" onclick="setMode('mode_3')">3. PRO ARENA</button>
+        <div style="width:20px"></div>
+        <button class="btn-start" onclick="sendCommand('space')">START (SPACE)</button>
+        <button class="btn-quit" onclick="sendCommand('quit')">MENU</button>
+    </div>
+
+    <script>
+        let selectedModel = null;
+
+        function toggleInputs() {
+            var isChecked = document.getElementById('useDefault').checked;
+            document.getElementById('manualInputs').style.display = isChecked ? 'none' : 'block';
+        }
+
+        function setModelStatus(text) {
+            document.getElementById('modelStatus').innerText = text;
+        }
+
+        function renderModelList(data) {
+            var select = document.getElementById('modelSelect');
+            select.innerHTML = '';
+            selectedModel = data.selected_model;
+
+            if (!data.models || data.models.length === 0) {
+                var emptyOption = document.createElement('option');
+                emptyOption.value = '';
+                emptyOption.textContent = 'No model files found';
+                select.appendChild(emptyOption);
+                select.disabled = true;
+                setModelStatus('Place .keras, .h5, or .hdf5 files in the models folder.');
+                return;
+            }
+
+            select.disabled = false;
+            data.models.forEach(function(model) {
+                var option = document.createElement('option');
+                option.value = model.id;
+                option.textContent = model.id;
+                if (model.id === data.selected_model) {
+                    option.selected = true;
+                }
+                select.appendChild(option);
+            });
+
+            if (data.model_ready && data.selected_model) {
+                setModelStatus('Loaded: ' + data.selected_model);
+            } else if (data.error) {
+                setModelStatus('Model error: ' + data.error);
+            } else {
+                setModelStatus('Select a model to load.');
+            }
+        }
+
+        function refreshModels() {
+            fetch('/models')
+                .then(res => res.json())
+                .then(renderModelList)
+                .catch(err => setModelStatus('Model list error: ' + err));
+        }
+
+        function selectModel() {
+            var select = document.getElementById('modelSelect');
+            var modelId = select.value;
+            if (!modelId || modelId === selectedModel) return;
+
+            setModelStatus('Loading: ' + modelId);
+            fetch('/model/select', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ model: modelId })
+            })
+                .then(res => res.json().then(data => ({ ok: res.ok, data: data })))
+                .then(result => {
+                    renderModelList(result.data);
+                    if (!result.ok) {
+                        document.getElementById('status').innerText = 'Status: ' + result.data.status;
+                    }
+                })
+                .catch(err => setModelStatus('Model load error: ' + err));
+        }
+
+        function sendCommand(cmd) {
+            fetch('/command/' + cmd)
+                .then(res => res.json())
+                .then(data => document.getElementById('status').innerText = "Status: " + data.status);
+        }
+
+        function setMode(mode) {
+            var useDefault = document.getElementById('useDefault').checked;
+            var c1 = document.getElementById('cam1').value;
+            var c2 = document.getElementById('cam2').value;
+            
+            var url = '/command/' + mode + '?use_default=' + useDefault;
+            if (!useDefault) {
+                url += '&cam1=' + encodeURIComponent(c1) + '&cam2=' + encodeURIComponent(c2);
+            }
+            
+            fetch(url)
+                .then(res => res.json())
+                .then(data => document.getElementById('status').innerText = "Status: " + data.status);
+        }
+
+        // Keyboard Listener (UPDATED)
+        window.addEventListener('keydown', function(e) {
+            if (e.code === 'Space' || e.key === ' ') {
+                e.preventDefault(); // Prevent page scroll
+                sendCommand('space');
+            }
+            if (e.key === 'q' || e.key === 'Q') {
+                sendCommand('quit');
+            }
+        });
+
+        refreshModels();
+    </script>
+</body>
+</html>

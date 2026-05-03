@@ -1,0 +1,49 @@
+{
+  "dataset_root": "005_dev_code/datasets/raw",
+  "classes_found": [
+    "paper",
+    "rock",
+    "scissors"
+  ],
+  "samples_per_class": {
+    "paper": 5188,
+    "rock": 5216,
+    "scissors": 5256
+  },
+  "total_raw_images": 15660,
+  "unique_basenames": 7830,
+  "basename_length_distribution": {
+    "16": 4376,
+    "14": 1928,
+    "11": 1864,
+    "8": 1796,
+    "9": 1634,
+    "12": 1612,
+    "10": 978,
+    "18": 720,
+    "13": 248,
+    "17": 248,
+    "7": 198,
+    "6": 36,
+    "5": 18,
+    "15": 4
+  },
+  "examples": {
+    "paper": [
+      "04l5I8TqdzF9WDMJ",
+      "0Og76sl5CJhbxWWx",
+      "0RA9rcrv8iVvuDDU"
+    ],
+    "rock": [
+      "00nKV8oHuTGi20gq",
+      "01dM3ewPIsnBICu1",
+      "02vG75hQW9Vp4oTl"
+    ],
+    "scissors": [
+      "0657zSfiTYzP2jrl",
+      "0CSaM2vL2cWX6Cay",
+      "0Flw60Z2MAWWKn6S"
+    ]
+  },
+  "note": "Filenames in this Kaggle HaGRID-30k subset are per-image IDs (16-char alphanumeric), NOT per-subject UUIDs. Therefore unique-basename count == unique-image count. True per-subject grouping requires the original HaGRID metadata (user_id/subject_id), which is NOT present in this 30k Kaggle slice. The current code groups synthetic augmentations of the SAME source image together (which prevents augmentation-leakage but does not prove subject-leakage prevention)."
+}

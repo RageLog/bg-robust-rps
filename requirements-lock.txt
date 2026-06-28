@@ -1,0 +1,18 @@
+# Exact versions (pip freeze) from the paper's Colab GPU runtime, Python 3.12.
+# CUDA / cuDNN: 11.8 / 8.9. Companion lock for requirements.txt.
+
+tensorflow==2.16.2
+numpy==1.26.4
+pandas==2.2.2
+scikit-learn==1.5.2
+scipy==1.13.1
+opencv-python==4.10.0.84
+pillow==10.3.0
+rembg==2.0.55
+onnxruntime-gpu==1.18.1
+matplotlib==3.8.4
+seaborn==0.13.2
+mediapipe==0.10.14
+tqdm==4.66.6
+psutil==5.9.5
+tabulate==0.9.0

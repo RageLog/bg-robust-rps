@@ -1,0 +1,107 @@
+{
+  "schema": "<class>_<basename>_syn<ii>.jpg (mirrors generate_data.py:88)",
+  "group_extraction_rule": "filename.split('_', 1)[1].rsplit('_syn', 1)[0]",
+  "splitter": "StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=42)",
+  "raw_image_count": 7830,
+  "augmentation_factor": 5,
+  "simulated_synthetic_count": 39150,
+  "all_folds_clean": true,
+  "folds": [
+    {
+      "fold": 1,
+      "n_train_files": 31320,
+      "n_val_files": 7830,
+      "n_train_groups": 6264,
+      "n_val_groups": 1566,
+      "group_overlap": 0,
+      "leakage_clean": true,
+      "class_balance_train": {
+        "paper": 10375,
+        "rock": 10485,
+        "scissors": 10460
+      },
+      "class_balance_val": {
+        "paper": 2595,
+        "rock": 2555,
+        "scissors": 2680
+      }
+    },
+    {
+      "fold": 2,
+      "n_train_files": 31320,
+      "n_val_files": 7830,
+      "n_train_groups": 6264,
+      "n_val_groups": 1566,
+      "group_overlap": 0,
+      "leakage_clean": true,
+      "class_balance_train": {
+        "paper": 10350,
+        "rock": 10480,
+        "scissors": 10490
+      },
+      "class_balance_val": {
+        "paper": 2620,
+        "rock": 2560,
+        "scissors": 2650
+      }
+    },
+    {
+      "fold": 3,
+      "n_train_files": 31320,
+      "n_val_files": 7830,
+      "n_train_groups": 6264,
+      "n_val_groups": 1566,
+      "group_overlap": 0,
+      "leakage_clean": true,
+      "class_balance_train": {
+        "paper": 10435,
+        "rock": 10370,
+        "scissors": 10515
+      },
+      "class_balance_val": {
+        "paper": 2535,
+        "rock": 2670,
+        "scissors": 2625
+      }
+    },
+    {
+      "fold": 4,
+      "n_train_files": 31320,
+      "n_val_files": 7830,
+      "n_train_groups": 6264,
+      "n_val_groups": 1566,
+      "group_overlap": 0,
+      "leakage_clean": true,
+      "class_balance_train": {
+        "paper": 10370,
+        "rock": 10450,
+        "scissors": 10500
+      },
+      "class_balance_val": {
+        "paper": 2600,
+        "rock": 2590,
+        "scissors": 2640
+      }
+    },
+    {
+      "fold": 5,
+      "n_train_files": 31320,
+      "n_val_files": 7830,
+      "n_train_groups": 6264,
+      "n_val_groups": 1566,
+      "group_overlap": 0,
+      "leakage_clean": true,
+      "class_balance_train": {
+        "paper": 10350,
+        "rock": 10375,
+        "scissors": 10595
+      },
+      "class_balance_val": {
+        "paper": 2620,
+        "rock": 2665,
+        "scissors": 2545
+      }
+    }
+  ],
+  "interpretation": "PROVES that the cv_data_loader.py grouping prevents augmentation-leakage (synthetic siblings never appear in different folds from their parent raw image) on the production filename schema. Does NOT prove subject-leakage prevention, which would require per-subject metadata that is absent from the public Kaggle subset used in this study. This caveat must appear in Methods and Limitations."
+}

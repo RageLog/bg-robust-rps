@@ -1,0 +1,9 @@
+{
+    "evaluation_count": 57,
+    "metrics": {
+        "pseudo_iou_mean": 0.8053272699353825,
+        "pseudo_iou_std": 0.09292626117514982,
+        "edge_contrast_quality_mean": 225.88605084253396
+    },
+    "description": "IoU calculated against MediaPipe hand detection bounding boxes as pseudo-ground truth. Edge contrast represents the Sharpness/Gradient Magnitude of the alpha mask."
+}

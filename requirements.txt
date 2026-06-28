@@ -1,0 +1,38 @@
+# Pinned dependencies for reproducibility
+# Tested on Python 3.10/3.11 (Colab), CUDA 11/12.
+# See docs/REPRODUCTION.md for the full environment snapshot used in the paper.
+
+# --- Deep learning core ---
+tensorflow[and-cuda]==2.16.*
+
+# --- Numerical / data ---
+numpy==1.26.*
+pandas==2.2.*
+scikit-learn==1.5.*
+scipy==1.13.*
+
+# --- Vision / preprocessing ---
+opencv-python==4.10.*
+pillow==10.3.*
+rembg[gpu]==2.0.55
+onnxruntime-gpu==1.18.*
+
+# --- Visualisation ---
+matplotlib==3.8.*
+seaborn==0.13.*
+
+# --- Classical baseline ---
+mediapipe==0.10.14
+
+# --- Utilities ---
+tqdm==4.66.*
+psutil==5.9.*
+tabulate==0.9.*
+
+# --- Optional realtime / web demo ---
+flask==3.0.*
+flask-socketio==5.3.*
+eventlet==0.36.*
+pyopenssl==24.1.*
+python-socketio==5.11.*
+requests==2.32.*

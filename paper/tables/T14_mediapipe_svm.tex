@@ -1,0 +1,22 @@
+% Auxiliary baseline computed locally on 2026-05-03 from retained artefacts.
+\begin{table}[t]
+\centering
+\caption{Auxiliary MediaPipe Hands + RBF-SVM baseline on the retained
+four-class external slice. Training uses $7{,}830$ raw RPS gesture
+images plus $2{,}610$ seed-42 sampled background images for
+\texttt{none}; testing uses $600$ external images ($150$ per class).}
+\label{tab:mediapipe_svm}
+\begin{tabular}{lr}
+\toprule
+Metric & Value \\
+\midrule
+Training samples & 10,440 \\
+External test samples & 600 \\
+External accuracy (\%) & 59.17 \\
+External macro-$F_1$ (\%) & 58.04 \\
+Training landmark detection (\%) & 72.97 \\
+External landmark detection (\%) & 37.33 \\
+SVM training time (s) & 0.38 \\
+\bottomrule
+\end{tabular}
+\end{table}

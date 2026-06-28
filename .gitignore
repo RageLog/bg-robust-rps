@@ -1,0 +1,65 @@
+# --- Datasets and trained model artefacts ---
+datasets/
+models/*
+!models/
+!models/.gitkeep
+!models/README.md
+*.keras
+*.h5
+*.hdf5
+*.joblib
+*.task
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Notebooks ---
+.ipynb_checkpoints/
+
+# --- Build / packaging ---
+*.zip
+*.tar.gz
+*.log
+
+# --- LaTeX intermediate files (paper/) ---
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.fdb_latexmk
+paper/*.fls
+paper/*.log
+paper/*.out
+paper/*.synctex*
+paper/*.toc
+paper/*.lof
+paper/*.lot
+
+# --- Editor / OS ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# --- Local Drive caches ---
+RPC_Colab/
+external_test/
+
+# --- Multi-seed revision run (outputs provided at runtime) ---
+reports_multiseed/
+models_multiseed/
+
+# --- Per-fold report tree (provided at runtime; reports/aggregated/ is shipped) ---
+/reports/DenseNet121/
+/reports/EfficientNetV2B0/
+/reports/MobileNetV3Small/
+/reports/ResNet50/
+/reports/VGG16/
+/reports/segmentation/
